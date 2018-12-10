@@ -1,7 +1,7 @@
 <template>
     <div class="login-container">
         <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-            <h3 class="title">Randy</h3>
+            <h3 class="title">vue-cli3 admin</h3>
             <el-form-item prop="username">
                 <span class="fontcontainer">
                     <span class="iconfont icon-yonghu"></span>

@@ -31,7 +31,6 @@ const user = {
       return new Promise((resolve, reject) => {
         login(username, userInfo.password).then(response => {
           // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
-          console.log(response.token,'logining')
           setToken(response.token)
           // setToken(response.user.role)
           commit('SET_TOKEN', response.token)
@@ -46,11 +45,8 @@ const user = {
     // 获取用户信息
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        console.log('getInfo action Promise')
-        console.log(state.token,'state.token')
         getInfo(state.token).then(response => {
           const data = response.data
-          console.log(data, 'getinfo')
           if (data.role && data.role !== '') { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLE', data.role)
           } else {
@@ -69,6 +65,7 @@ const user = {
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {
         logout(state.token).then(() => {
+          console.log('out')
           commit('SET_TOKEN', '')
           commit('SET_ROLE', '')
           removeToken()

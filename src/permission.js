@@ -26,7 +26,7 @@ router.beforeEach((to, from, next) => {
         next()
       }
       store.dispatch('GetInfo').then(res => { // 拉取用户信息
-        console.log('getInfo')
+        // console.log('getInfo')
         next()
       }).catch((err) => {
         store.dispatch('FedLogOut').then(() => {
