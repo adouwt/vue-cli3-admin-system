@@ -31,7 +31,7 @@ service.interceptors.response.use(
     /**
      * code为非20000是抛错 可结合自己业务进行修改
      */
-    // console.log(response, 'response') // // response 响应数据
+    console.log(response, 'request') // // response 响应数据
     const res = response.data
     // console.log(res) 在这里已经对返回的参数 做了判断，如果是失败的信息，就弹框提示失败的信息
     // if (res.code !== 20000) {
