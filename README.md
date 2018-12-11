@@ -25,7 +25,8 @@
  ### --> view/resgiter/index.vue  接受到注册成功信息
  ### 其中，错误信息会在 request.js 进行拦截处理，在每次页面路由跳转时候，都会经过permission.js 
  
-
+### todo 
+#### 新增一个接口 配置用户角色能访问的路由， 每次当用户登录成功，permission.js 拉取用户信息时，限制用户的访问路由，没有权限时强制跳转到一个没有权限的提示页面
  
 ### Project setup
 ```

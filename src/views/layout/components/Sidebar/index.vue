@@ -30,6 +30,9 @@ export default {
     isCollapse() {
       return !this.sidebar.opened
     }
+  },
+  created() {
+    console.log( this.$router)
   }
 }
 </script>

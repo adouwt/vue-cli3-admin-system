@@ -21,7 +21,28 @@ export const constantRouterMap = [
             component: () => import('@/views/dashboard/index')
         }]
     },
-
+    {
+        path: '/admin/manage-users',
+        component: Layout,
+        children: [{
+            path: '/admin/manage-users',
+            name: 'ManageUsers',
+            component: () => import('@/views/admin/manage-users'),
+            meta: { title: 'manage-users', icon: 'icon-fenleiorguangchangorqitatianchong' }
+        }]
+    },
+    {
+        path: '/admin/manage-money',
+        component: Layout,
+        children: [
+            {
+                path: '/admin/manage-money',
+                name: 'ManageMoney',
+                component: () => import('@/views/admin/manage-money'),
+                meta: { title: 'ManageMoney', icon: 'icon-xinfengtianchong' }
+            }
+        ]
+    },
     {
         path: '/example',
         component: Layout,
