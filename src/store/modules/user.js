@@ -1,12 +1,15 @@
 import { register, login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
+// import { testRoute } from '@/router'
+import { constantRouterMap } from '@/router'
 /** eslint disabled */
 const user = {
   state: {
     token: getToken(),
     name: '',
     avatar: '',
-    role: ''
+    role: '',
+    roleRouters: []
   },
 
   mutations: {
@@ -21,6 +24,9 @@ const user = {
     },
     SET_ROLE: (state, role) => {
       state.role = role
+    },
+    SET_ROLE_ROUTERS: (state, roleRouters) => {
+      state.roleRouters = roleRouters
     }
   },
 
@@ -77,7 +83,22 @@ const user = {
         })
       })
     },
-
+    // 生成用户路由
+    GenerateRoutes({ commit}, data) {
+      return new Promise((resolve, reject) => {
+        let role = data;
+        // console.log(role) 
+        // 根据role 遍历所有router，
+        // 这里设置getter上的routers 采用过滤器 筛选出对应role 路由
+        // console.log(constantRouterMap)
+        let rolesRouters = constantRouterMap.filter((item) => {
+          return item.role === role
+        })
+        console.log(rolesRouters)
+        commit('SET_ROLE_ROUTERS', rolesRouters)
+        resolve(rolesRouters)
+      })
+    },
     // 登出
     LogOut({ commit, state }) {
       return new Promise((resolve, reject) => {

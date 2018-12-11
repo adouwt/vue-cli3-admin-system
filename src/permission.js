@@ -8,16 +8,13 @@ import { getToken } from '@/utils/auth' // 验权
 const whiteList = ['/login', '/register'] // 不重定向白名单
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  // console.log('permission', getToken())
   if (getToken()) {
-    // console.log(to, 'to')
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done()
     } else {
       if (store.getters.role !== '') {
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          console.log('GetInfo', res)
           const role = res.data.role // note: roles must be a array! such as: ['editor','develop']
           // store.dispatch('GenerateRoutes', { roles }).then(() => { // 根据roles权限生成可访问的路由表
           //   router.addRoutes(store.getters.addRouters) // 动态添加可访问路由表
@@ -43,6 +40,31 @@ router.beforeEach((to, from, next) => {
         })
       })
     }
+
+    if (from.path === '/login') {
+      // console.log('这时候有登录，需要生成路由表') // 在登陆时候，通过 role 来生成不同的路由表
+      if (store.getters.role !== '') {
+        store.dispatch('GetInfo').then(res => { // 拉取用户信息
+          const role = res.data.role // note: roles must be a array! such as: ['editor','develop']
+          // console.log(role)
+          store.dispatch('GenerateRoutes', role).then((res) => { // 根据role权限生成可访问的路由表
+            console.log(store.getters.roleRouters)
+            router.addRoutes(store.getters.roleRouters) // 动态添加可访问路由表 ? 没有添加到router
+            console.log(router)
+            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
+          })
+          next()
+        }).catch((err) => {
+          store.dispatch('FedLogOut').then(() => {
+            Message.error(err || 'Verification failed, please login again')
+            next({ path: '/' })
+          })
+        })
+      } else {
+        next()
+      }
+    }
+    
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
       next()
