@@ -12,7 +12,7 @@ export function login(username, password) {
 }
 
 export function register(username, password, type, role) {
-  console.log('login')
+  // console.log('register in login.js')
   return request({
     url: '/post/register',
     method: 'post',

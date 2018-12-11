@@ -94,10 +94,9 @@ export default {
                     this.$store
                         .dispatch("Register", this.registerForm)
                         .then((res) => {
-                            // console.log(res)  Register promise 没有进来
-                            console.log('注册成功')
+                            // console.log(res, '注册成功') // 这里 res 接收了来自 actions 里面 resolve(response)
                             this.loading = false;
-                            this.$router.push({ path: "/" });
+                            this.$router.push({ path: "/" }); // 这里会触发permission.js 的路由导航守卫，拉取用户信息等
                         })
                         .catch(() => {
                             this.loading = false;

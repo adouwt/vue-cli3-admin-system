@@ -33,10 +33,9 @@ const user = {
       return new Promise((resolve, reject) => {
         register(username, userInfo.password, type, role).then(response => {
           // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
-          // console.log('actions')
+          // console.log('actions', response)
           setToken(response.token)
           commit('SET_TOKEN', response.token)
-          commit('SET_ROLE', response.user.role)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -50,7 +49,6 @@ const user = {
         login(username, userInfo.password).then(response => {
           // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
           setToken(response.token)
-          // setToken(response.user.role)
           commit('SET_TOKEN', response.token)
           commit('SET_ROLE', response.user.role)
           resolve(response)
@@ -64,6 +62,7 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
+          // console.log(response, '获取用户信息')
           const data = response.data
           if (data.role && data.role !== '') { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLE', data.role)

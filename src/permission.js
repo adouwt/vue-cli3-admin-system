@@ -10,13 +10,14 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   // console.log('permission', getToken())
   if (getToken()) {
-    console.log(to, 'to')
+    // console.log(to, 'to')
     if (to.path === '/login') {
       next({ path: '/' })
       NProgress.done()
     } else {
       if (store.getters.role !== '') {
         store.dispatch('GetInfo').then(res => { // 拉取用户信息
+          // console.log('GetInfo')
           next()
         }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {
@@ -28,7 +29,7 @@ router.beforeEach((to, from, next) => {
         next()
       }
       store.dispatch('GetInfo').then(res => { // 拉取用户信息
-        // console.log('getInfo')
+        // console.log('getInfo') // 登录成功 或者注册成功 都会经过这里拉取用户信息
         next()
       }).catch((err) => {
         store.dispatch('FedLogOut').then(() => {

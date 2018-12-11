@@ -17,7 +17,13 @@
  
  <strong>如果这个项目对你工作和学习有帮助，别忘了右上角的star哦😊</strong>
  
- 
+ ## 简单的描述下，从注册页面到注册成功跳转页面的数据流程
+ ### views/register/index.vue 触发actions Register 
+ ### --> store/user.js的Register, 这个js调用了 api/login.js register方法 ，register方法返回一个request的promise对象 
+ ### --> utils/request.js promise resolve（或者reject）数据 给 store/user.js
+ ### --> store/user.js register promise then（或者catch）方法接收到返回数据，然后 resolve（reject）response给 view/resgiter/index.vue 
+ ### --> view/resgiter/index.vue  接受到注册成功信息
+ ### 其中，错误信息会在 request.js 进行拦截处理，在每次页面路由跳转时候，都会经过permission.js 
  
 
  
