@@ -6,6 +6,8 @@ import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
 
 const whiteList = ['/login', '/register'] // 不重定向白名单
+let roleRouters = JSON.parse(localStorage.getItem('roleRouters'))
+
 router.beforeEach((to, from, next) => {
   NProgress.start()
   if (getToken()) {
@@ -40,14 +42,13 @@ router.beforeEach((to, from, next) => {
         })
       })
     }
-
     if (from.path === '/login') {
       // console.log('这时候有登录，需要生成路由表') // 在登陆时候，通过 role 来生成不同的路由表
       if (store.getters.role !== '') {
         store.dispatch('GetInfo').then(res => { // 拉取用户信息，在这里已经将角色的权限路由生成 放进vuex
           // 根据role权限生成可访问的路由表
-          router.options.routes.push(...store.getters.roleRouters)
-          router.addRoutes(router.options.routes)
+          // router.options.routes.push(...store.getters.roleRouters)
+          router.addRoutes(store.getters.roleRouters)
           // next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,这个方法有些问题 会重复添加roleRouters 一次
           next()
           // })
@@ -61,7 +62,7 @@ router.beforeEach((to, from, next) => {
         next()
       }
     }
-    
+
   } else {
     if (whiteList.indexOf(to.path) !== -1) {
       next()
@@ -71,7 +72,19 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
-
+router.beforeEach((to, from, next) => {
+  if (!router.options.routes.includes(...store.getters.roleRouters)) {
+    router.options.routes.push(...store.getters.roleRouters)
+    router.addRoutes(router.options.routes)
+    console.log(router.options.routes)
+  }
+  next()
+})
 router.afterEach(() => {
+  // if (!router.options.routes.includes(...roleRouters)) {
+  //   router.options.routes.push(...roleRouters)
+  //   router.addRoutes(router.options.routes)
+  //   console.log(router.options.routes)
+  // }
   NProgress.done() // 结束Progress
 })

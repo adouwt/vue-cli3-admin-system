@@ -2,6 +2,7 @@ import { register, login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken, setRouteToken, getRouteToken, removeRouteToken } from '@/utils/auth'
 // import { testRoute } from '@/router'
 import { constantRouterMap } from '@/router'
+import router from '@/router'
 /** eslint disabled */
 const user = {
   state: {
@@ -68,20 +69,21 @@ const user = {
     GetInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          // console.log(response, '获取用户信息')
           const data = response.data
           if (data.role && data.role !== '') { // 验证返回的roles是否是一个非空数组
+
             let rolesRouters = constantRouterMap.filter((item) => {
               return item.role === data.role
             })
+
             commit('SET_ROLE', data.role)
             commit('SET_ROLE_ROUTERS', rolesRouters)
+            localStorage.setItem('roleRouters', JSON.stringify(rolesRouters))
           } else {
             reject('getInfo: role must be a non-null String !')
           }
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar_url)
-          getRouteToken()
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -102,8 +104,6 @@ const user = {
         // console.log(rolesRouters)
         commit('SET_ROLE_ROUTERS', rolesRouters)
         // 将rolesRouters 存cookie ，获取用户信息的时候 再重新获取
-        setRouteToken(rolesRouters)
-        console.log(getRouteToken(), '000')
         resolve(rolesRouters)
       })
     },
