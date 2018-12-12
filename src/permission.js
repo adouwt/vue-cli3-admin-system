@@ -44,16 +44,13 @@ router.beforeEach((to, from, next) => {
     if (from.path === '/login') {
       // console.log('这时候有登录，需要生成路由表') // 在登陆时候，通过 role 来生成不同的路由表
       if (store.getters.role !== '') {
-        store.dispatch('GetInfo').then(res => { // 拉取用户信息
-          const role = res.data.role // note: roles must be a array! such as: ['editor','develop']
-          // console.log(role)
-          store.dispatch('GenerateRoutes', role).then((res) => { // 根据role权限生成可访问的路由表
-            console.log(store.getters.roleRouters)
-            router.addRoutes(store.getters.roleRouters) // 动态添加可访问路由表 ? 没有添加到router
-            console.log(router)
-            next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,set the replace: true so the navigation will not leave a history record
-          })
+        store.dispatch('GetInfo').then(res => { // 拉取用户信息，在这里已经将角色的权限路由生成 放进vuex
+          // 根据role权限生成可访问的路由表
+          router.options.routes.push(...store.getters.roleRouters)
+          router.addRoutes(router.options.routes)
+          // next({ ...to, replace: true }) // hack方法 确保addRoutes已完成 ,这个方法有些问题 会重复添加roleRouters 一次
           next()
+          // })
         }).catch((err) => {
           store.dispatch('FedLogOut').then(() => {
             Message.error(err || 'Verification failed, please login again')
