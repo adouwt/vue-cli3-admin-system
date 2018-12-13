@@ -72,19 +72,28 @@ router.beforeEach((to, from, next) => {
     }
   }
 })
+// 处理刷新问题，合并到上面的beforeEach 有问题
 router.beforeEach((to, from, next) => {
-  if (!router.options.routes.includes(...store.getters.roleRouters)) {
-    router.options.routes.push(...store.getters.roleRouters)
-    router.addRoutes(router.options.routes)
-    console.log(router.options.routes)
+  let getRoleRouters = () => {
+    if (!router.options.routes.includes(...store.getters.roleRouters)) {
+      router.options.routes.push(...store.getters.roleRouters)
+      router.addRoutes(router.options.routes)
+    }
   }
-  next()
+  let intervalId = setInterval(()=>{
+    if(getToken() !== 'undefined' && store.getters.roleRouters.length>0) {
+      getRoleRouters()
+      clearInterval(intervalId)
+      next()
+    } else if(getToken() === 'undefined') {
+      clearInterval(intervalId)
+      next()
+    } else {
+      next()
+    }
+  }, 10)
 })
+
 router.afterEach(() => {
-  // if (!router.options.routes.includes(...roleRouters)) {
-  //   router.options.routes.push(...roleRouters)
-  //   router.addRoutes(router.options.routes)
-  //   console.log(router.options.routes)
-  // }
   NProgress.done() // 结束Progress
 })
