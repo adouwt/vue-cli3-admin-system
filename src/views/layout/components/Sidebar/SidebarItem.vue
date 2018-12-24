@@ -21,8 +21,8 @@
         </template>
 
         <template v-for="child in item.children" v-if="!child.hidden">
+            <!-- 组件递归渲染 -->
           <sidebar-item :is-nest="true" class="nest-menu" v-if="child.children&&child.children.length>0" :item="child" :key="child.path" :base-path="resolvePath(child.path)"></sidebar-item>
-
           <router-link v-else :to="resolvePath(child.path)" :key="child.name">
             <el-menu-item :index="resolvePath(child.path)">
               <!-- <svg-icon v-if="child.meta&&child.meta.icon" :icon-class="child.meta.icon"></svg-icon> -->
@@ -80,6 +80,8 @@ export default {
             return false;
         },
         resolvePath(...paths) {
+            // console.log(path.resolve(this.basePath, ...paths))
+            // 拼接路由 将router 里面的父级和子级的path 合并
             return path.resolve(this.basePath, ...paths);
         }
     }

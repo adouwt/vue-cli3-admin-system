@@ -4,7 +4,7 @@
   "private": true,
   "author": "Hui <543245444@qq.com>",
   "scripts": {
-    "dev": "vue-cli-service serve",
+    "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "analyze": "vue-cli-service build"
   },
