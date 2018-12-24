@@ -6,7 +6,6 @@ import { Message } from 'element-ui'
 import { getToken } from '@/utils/auth' // 验权
 
 const whiteList = ['/login', '/register'] // 不重定向白名单
-let roleRouters = JSON.parse(localStorage.getItem('roleRouters'))
 
 router.beforeEach((to, from, next) => {
   NProgress.start()

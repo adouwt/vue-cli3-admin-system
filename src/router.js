@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Router from 'vue-router'
 /* Layout */
 import Layout from './views/layout/Layout'
-
+const TableIndex = () =>  import(/* webpackChunkName: "TableIndex" */ '@/views/table/index')
+const TreeIndex = () =>  import(/* webpackChunkName: "TreeIndex" */ '@/views/tree/index')
 Vue.use(Router)
 
 export const constantRouterMap = [
@@ -63,13 +64,13 @@ export const baseRoute = [
             {
                 path: 'table',
                 name: 'Table',
-                component: () => import('@/views/table/index'),
+                component: TableIndex,
                 meta: { title: 'Table', icon: 'icon-shoujitianchong' }
             },
             {
                 path: 'tree',
                 name: 'Tree',
-                component: () => import('@/views/tree/index'),
+                component: TreeIndex,
                 // meta: { title: 'Tree', icon: 'tree' }
                 meta: { title: 'Tree', icon: 'icon-gengduotianchong' }
             }

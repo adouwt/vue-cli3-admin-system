@@ -27,6 +27,7 @@ export default {
   methods: {
     getBreadcrumb() {
       let matched = this.$route.matched.filter(item => item.name)
+      // console.log(matched) // 这个路由里面是完整的路径数组，就是对应的每一级路径
       const first = matched[0]
       if (first && first.name !== 'dashboard') {
         matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
