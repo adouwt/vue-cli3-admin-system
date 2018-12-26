@@ -1,15 +1,16 @@
 {
-  "name": "my",
+  "name": "vue-admin-template",
   "version": "0.1.0",
   "private": true,
-  "author": "Hui <543245444@qq.com>",
+  "author": "Wtodd <1259709654@qq.com>",
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "build": "cross-env NODE_ENV=production vue-cli-service build --mode production",
     "analyze": "vue-cli-service build"
   },
   "dependencies": {
     "axios": "0.17.1",
+    "cross-env": "^5.2.0",
     "element-ui": "2.3.4",
     "js-cookie": "2.2.0",
     "normalize.css": "7.0.0",

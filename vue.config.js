@@ -1,5 +1,3 @@
-// 七牛上传插件
-const QiniuPlugin = require('qiniu-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const path = require('path');
 
@@ -14,7 +12,7 @@ module.exports = {
     // 指定子路径。比如，如果你的应用部署在
     // https://www.foobar.com/my-app/
     // 那么将这个值改为 `/my-app/`
-    baseUrl: '/',
+    baseUrl: process.env.VUE_APP_PUBLIC_URL,
 
     // 将构建好的文件输出到哪里
     outputDir: 'dist',
@@ -78,7 +76,7 @@ module.exports = {
         hotOnly: false,
         open:true,
         // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli/cli-service.md#配置代理
-        proxy: 'http://localhost:4000', // string | Object
+        proxy: 'http://localhost:4000',
         before: app => { }
     },
 
