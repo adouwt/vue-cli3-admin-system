@@ -71,7 +71,7 @@ const user = {
           const data = response.data
           if (data.role && data.role !== '') {
             let rolesRouters = constantRouterMap.filter((item) => {
-              return item.meta.role === data.role
+              return item.meta.role.indexOf(data.role) !== -1
             })
 
             commit('SET_ROLE', data.role)

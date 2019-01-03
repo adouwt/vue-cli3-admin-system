@@ -10,7 +10,7 @@ export const constantRouterMap = [
     {
         path: '/admin/manage-users',
         component: Layout,
-        meta: {role: 'admin'},
+        meta: {role: ['admin', 'boss']},
         hidden: false,
         children: [{
             path: '/admin/manage-users',
@@ -22,7 +22,7 @@ export const constantRouterMap = [
     {
         path: '/admin/manage-money',
         component: Layout,
-        meta: {role: 'admin'},
+        meta: {role: ['admin', 'boss']},
         hidden: false,
         children: [
             {

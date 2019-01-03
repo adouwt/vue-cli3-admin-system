@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <h4>金钱管理</h4>
     <div class="dashboard-text">name:{{name}}</div>
-    <div class="dashboard-text">role:<span v-for='role in role' :key='role'>{{role}}</span></div>
+    <div class="dashboard-text">role:<span v-for='role in role' >{{role}}</span></div>
   </div>
 </template>
 

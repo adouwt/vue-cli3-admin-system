@@ -2,8 +2,8 @@
   <div class="dashboard-container">
     <h4>用户管理：</h4>
     <div class="dashboard-text">name:{{name}}</div>
-    <div class="dashboard-text">role:<span v-for='role in role' :key='role'>{{role}}</span></div>
-    <div v-if="role === 'admin'">
+    <div class="dashboard-text">role:<span v-for="role in role" >{{role}}</span></div>
+    <div v-if="role === 'admin' || role === 'boss'">
       <h3>所有用户</h3>
       <div>
         <el-table
@@ -25,7 +25,7 @@
                 size="mini"
                 placeholder="输入关键字搜索"/>
             </template>
-            <template slot-scope="scope" v-if="role !== 'boss'">
+            <template slot-scope="scope" v-if="role === 'admin'">
               <el-button
                 size="mini"
                 @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
