@@ -3,39 +3,40 @@
     <h4>用户管理：</h4>
     <div class="dashboard-text">name:{{name}}</div>
     <div class="dashboard-text">role:<span v-for='role in role' :key='role'>{{role}}</span></div>
-
-    <h3>所有用户</h3>
-    <div>
-    <el-table
-      :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-      style="width: 100%">
-      <el-table-column
-        label="Date"
-        prop="date">
-      </el-table-column>
-      <el-table-column
-        label="Name"
-        prop="name">
-      </el-table-column>
-      <el-table-column
-        align="right">
-        <template slot="header" slot-scope="scope">
-          <el-input
-            v-model="search"
-            size="mini"
-            placeholder="输入关键字搜索"/>
-        </template>
-        <template slot-scope="scope">
-          <el-button
-            size="mini"
-            @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-          <el-button
-            size="mini"
-            type="danger"
-            @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <div v-if="role === 'admin'">
+      <h3>所有用户</h3>
+      <div>
+        <el-table
+          :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
+          style="width: 100%">
+          <el-table-column
+            label="Date"
+            prop="date">
+          </el-table-column>
+          <el-table-column
+            label="Name"
+            prop="name">
+          </el-table-column>
+          <el-table-column
+            align="right">
+            <template slot="header" slot-scope="scope">
+              <el-input
+                v-model="search"
+                size="mini"
+                placeholder="输入关键字搜索"/>
+            </template>
+            <template slot-scope="scope" v-if="role !== 'boss'">
+              <el-button
+                size="mini"
+                @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
+              <el-button
+                size="mini"
+                type="danger"
+                @click="handleDelete(scope.$index, scope.row)">Delete</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
   </div>
 </template>

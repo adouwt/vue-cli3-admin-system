@@ -7,12 +7,9 @@ import { getToken } from '@/utils/auth'
 /** eslint disabled */
 // 创建axios实例
 const service = axios.create({
-  // baseURL: 'http://vue.wtodd.wang:4000', // api 的 base_url
   baseURL: process.env.VUE_APP_BASE_API, // api 的 base_url
-  // baseURL: baseURL, // api 的 base_url
   timeout: 5000 // 请求超时时间
 })
-console.log(process.env, 'api URL')
 // request拦截器
 service.interceptors.request.use(
   config => {

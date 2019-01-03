@@ -2,7 +2,6 @@ import { register, login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken, setRouteToken, getRouteToken, removeRouteToken } from '@/utils/auth'
 // import { testRoute } from '@/router'
 import { constantRouterMap } from '@/router'
-import router from '@/router'
 /** eslint disabled */
 const user = {
   state: {
@@ -70,15 +69,13 @@ const user = {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
           const data = response.data
-          if (data.role && data.role !== '') { // 验证返回的roles是否是一个非空数组
-
+          if (data.role && data.role !== '') {
             let rolesRouters = constantRouterMap.filter((item) => {
-              return item.role === data.role
+              return item.meta.role === data.role
             })
 
             commit('SET_ROLE', data.role)
             commit('SET_ROLE_ROUTERS', rolesRouters)
-            localStorage.setItem('roleRouters', JSON.stringify(rolesRouters))
           } else {
             reject('getInfo: role must be a non-null String !')
           }
