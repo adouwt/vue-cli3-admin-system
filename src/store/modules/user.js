@@ -1,6 +1,5 @@
 import { register, login, logout, getInfo } from '@/api/login'
-import { getToken, setToken, removeToken, setRouteToken, getRouteToken, removeRouteToken } from '@/utils/auth'
-// import { testRoute } from '@/router'
+import { getToken, setToken, removeToken } from '@/utils/auth'
 import { constantRouterMap } from '@/router'
 /** eslint disabled */
 const user = {
