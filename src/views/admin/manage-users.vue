@@ -10,14 +10,19 @@
           :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
           style="width: 100%">
           <el-table-column
-            label="avatar_url"
+            label="头像"
             prop="avatar_url">
           </el-table-column>
           <el-table-column
-            label="name"
+            label="Name"
             prop="name">
           </el-table-column>
           <el-table-column
+            label="Role"
+            prop="role">
+          </el-table-column>
+          <el-table-column
+            v-if="role === 'admin'"
             align="right"
             label="操作"
             prop="_id">
@@ -27,7 +32,7 @@
                 size="mini"
                 placeholder="输入关键字搜索"/>
             </template>
-            <template slot-scope="scope" v-if="role === 'admin'">
+            <template slot-scope="scope" >
               <el-button
                 size="mini"
                 @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
@@ -57,21 +62,28 @@
     </div>
     <!-- 编辑用户的弹框 -->
     <div>
-        <el-dialog title="收货地址" :visible.sync="dialogFormVisible"
+        <el-dialog title="修改角色" :visible.sync="dialogFormVisible"
         width="30%"
         center>
           <div>
-            <span>姓名：{{name}}</span>:
-            <div>
-                <p>角色：</p>
-                  <input type="radio" name="roles" value= "管理员">管理员
-                  <input type="radio" name="roles" value= "Boss">Boss
-                  <input type="radio" name="roles" value= "普通开发">普通开发
+            <span>姓名：<b>{{currentUser}}</b></span>
+            <div class="role-wrapper">
+                <p>当前角色：<b>{{currentRole}}</b></p>
+                <span>修改：</span>
+                <el-form ref="form" :model="form">
+                  <el-form-item>
+                    <el-radio-group v-model="form.role">
+                      <el-radio label="admin"></el-radio>
+                      <el-radio label="boss"></el-radio>
+                      <el-radio label="dev"></el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                </el-form>
             </div>
           </div>
           <div slot="footer" class="dialog-footer">
-            <el-button @click="dialogFormVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogFormVisible = false">确 定</el-button>
+            <el-button @click="edited('cancel')">取 消</el-button>
+            <el-button type="primary" @click="edited('ok')">确 定</el-button>
           </div>
         </el-dialog>
     </div>
@@ -80,7 +92,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-import { Dialog, notify, From } from 'element-ui'
+import { Dialog, notify, MessageBox } from 'element-ui'
 export default {
   name: 'ManageUsers',
   computed: {
@@ -97,7 +109,11 @@ export default {
         dialogFormVisible: false,
         id: '',
         userRole: '',
-        userName: ''
+        userName: '',
+        currentUser: '',
+        currentRole: '',
+        currentId: '',
+        form: {}
       }
     },
     created () {
@@ -108,7 +124,6 @@ export default {
         this.$store
             .dispatch("GetAllUser", {})
             .then((res) => {
-              console.log(res)
               this.tableData = res.users
             })
             .catch(() => {
@@ -118,38 +133,64 @@ export default {
       handleEdit(index, row) {
         this.dialogFormVisible = true
         this.id = row._id
-        this.userName = row.name
-        console.log(row._id)
+        this.currentId = row._id
+        this.currentUser = row.name
+        this.currentRole = row.role
       },
       handleDelete(index, row) {
-        console.log(index, row);
         this.handleClose(row._id)
       },
       handleClose(id) {
-        this.$confirm('确认删除？')
-          .then(_ => {
-            this.$store
+        this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '放弃修改',
+          type: 'warning',
+          center: true
+        }).then(() => {
+          this.$store
             .dispatch("DeleteOneUser", {id:id})
             .then((res) => {
-                this.$notify({
-                    title: '成功',
-                    message: '删除成功',
-                    type: 'success'
-                });
-                this.initData()
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              this.initData()
+            })
+          }).catch(() => {
+            this.$message({
+              type: 'info',
+              message: '已取消删除'
+            });
+        });
+      },
+      edited (name) {
+        this.dialogFormVisible = false
+        if(name === 'cancel') {
+          this.$message({
+            type: 'info',
+            message: '已取消!'
+          });
+        } else if(name === 'ok'){
+          this.$store
+            .dispatch("UpdateSomeOneRole", {id: this.currentId, role: this.form.role})
+            .then((res) => {
+              this.initData()
+              this.$message({
+                type: 'success',
+                message: '修改成功!'
+              });
             })
             .catch(() => {
-              this.loading = false;
+              this.$message({
+                  type: 'warning',
+                  message: '修改失败，请稍后再试!'
+              });
             });
-          })
-          .catch(_ => {
-            this.$notify.error({
-              title: '取消',
-              message: '取消删除'
-            });
-          });
+          
+        }
+        
       }
-    },
+    }
 }
 </script>
 
@@ -161,6 +202,12 @@ export default {
   &-text {
     font-size: 30px;
     line-height: 46px;
+  }
+}
+.role-wrapper {
+  label {
+    // margin-right: 2em;
+    // cursor: pointer;
   }
 }
 </style>

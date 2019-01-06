@@ -1,4 +1,4 @@
-import { getAllUser, deleteOneUser } from '@/api/admin'
+import { getAllUser, deleteOneUser, updateSomeOneRole } from '@/api/admin'
 /** eslint disabled */
 const admin = {
   state: {
@@ -27,7 +27,17 @@ const admin = {
                 reject(error)
             })
           })
-    } 
+    },
+    // 修改用户
+    UpdateSomeOneRole ({ commit }, {id, role}) {
+        return new Promise((resolve, reject) => {
+            updateSomeOneRole(id, role).then(response => {
+                resolve(response)
+            }).catch(error => {
+                reject(error)
+            })
+          })
+    },
   }
 }
 

@@ -58,10 +58,10 @@ export default {
         };
         return {
             registerForm: {
-                username: "e1",
+                username: "admin",
                 password: "123456",
                 type: 'signup',
-                role: 'editor3'
+                role: 'admin'
             },
             loginRules: {
                 username: [

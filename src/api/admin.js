@@ -10,7 +10,7 @@ export function getAllUser() {
 }
 export function deleteOneUser(id) {
     return request({
-        url: '/post//deleteuser',
+        url: '/post/deleteuser',
         method: 'post',
         data: {
             id: id
@@ -18,3 +18,13 @@ export function deleteOneUser(id) {
       })
 }
 
+export function updateSomeOneRole(id, role) {
+  return request({
+      url: '/post/updatesomerole',
+      method: 'post',
+      data: {
+          id: id,
+          role: role
+      }
+    })
+}
