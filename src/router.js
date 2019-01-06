@@ -2,8 +2,16 @@ import Vue from 'vue'
 import Router from 'vue-router'
 /* Layout */
 import Layout from './views/layout/Layout'
+// 异步加载 按需加载
 const TableIndex = () =>  import(/* webpackChunkName: "TableIndex" */ '@/views/table/index')
 const TreeIndex = () =>  import(/* webpackChunkName: "TreeIndex" */ '@/views/tree/index')
+
+// 同步加载 按需加载
+// const TechnologyIndex = require(/* webpackChunkName: "TechnologyIndex" */ '@/views/display/technology')
+const TechnologyIndex = () =>  import(/* webpackChunkName: "TechnologyIndex" */ '@/views/display/technology')
+// const FictionIndex = require(/* webpackChunkName: "FictionIndex" */ '@/views/display/fiction')
+const FictionIndex = () => import(/* webpackChunkName: "FictionIndex" */ '@/views/display/fiction')
+
 Vue.use(Router)
 
 export const constantRouterMap = [
@@ -59,7 +67,7 @@ export const baseRoute = [
         name: 'Example',
         // meta: { title: 'Example', icon: 'example' },
         meta: { title: 'Example', icon: 'icon-fenleiorguangchangorqitatianchong' },
-        role: 'editor3',
+        role: 'dev',
         children: [
             {
                 path: 'table',
@@ -87,9 +95,9 @@ export const baseRoute = [
         children: [
             {
                 path: 'index',
-                name: 'Form',
-                component: () => import('@/views/form/index'),
-                meta: { title: 'Form', icon: 'icon-xinfengtianchong' }
+                name: 'Edit',
+                component: () => import('@/views/edit/index'),
+                meta: { title: 'edit', icon: 'icon-xinfengtianchong' }
             }
         ]
     },
@@ -151,7 +159,29 @@ export const baseRoute = [
             }
         ]
     },
-
+    {
+        path: '/display',
+        component: Layout,
+        redirect: '/display/tech',
+        name: 'Display',
+        // meta: { title: 'Example', icon: 'example' },
+        meta: { title: 'display', icon: 'icon-fenleiorguangchangorqitatianchong' },
+        role: 'dev',
+        children: [
+            {
+                path: 'technology',
+                name: 'Technology',
+                component: TechnologyIndex,
+                meta: { title: 'technology', icon: 'icon-shoujitianchong' }
+            },
+            {
+                path: 'fiction',
+                name: 'Fiction',
+                component: FictionIndex,
+                meta: { title: 'Fiction', icon: 'icon-gengduotianchong' }
+            }
+        ]
+    },
     { path: '*', redirect: '/404', hidden: true }
 ]
 

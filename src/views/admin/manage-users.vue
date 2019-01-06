@@ -2,7 +2,7 @@
   <div class="dashboard-container">
     <h4>用户管理：</h4>
     <div class="dashboard-text">name:{{name}}</div>
-    <div class="dashboard-text">role:<span v-for="role in role" >{{role}}</span></div>
+    <div class="dashboard-text">role:<span >{{role}}</span></div>
     <div v-if="role === 'admin' || role === 'boss'">
       <h3>所有用户</h3>
       <div>
