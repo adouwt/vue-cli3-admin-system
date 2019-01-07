@@ -14,7 +14,7 @@ const FictionIndex = () => import(/* webpackChunkName: "FictionIndex" */ '@/view
 
 Vue.use(Router)
 
-export const constantRouterMap = [
+export const asyncRouterMap = [
     {
         path: '/admin/manage-users',
         component: Layout,
@@ -40,14 +40,13 @@ export const constantRouterMap = [
                 meta: { title: 'ManageMoney', icon: 'el-icon-menu' }
             }
         ]
-    }
+    },
+    { path: '/404', component: () => import('@/views/404'), hidden: true, role: 'all' },
 ];
 
 export const baseRoute = [
     { path: '/login', component: () => import('@/views/login/index'), hidden: true, role: 'all' },
     { path: '/register', component: () => import('@/views/register/index'), hidden: true, role: 'all' },
-    { path: '/404', component: () => import('@/views/404'), hidden: true, role: 'all' },
-
     {
         path: '/',
         component: Layout,
