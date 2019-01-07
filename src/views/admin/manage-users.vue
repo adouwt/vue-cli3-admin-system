@@ -8,7 +8,14 @@
       <div>
         <el-table
           :data="tableData.filter(data => !search || data.name.toLowerCase().includes(search.toLowerCase()))"
-          style="width: 100%">
+          ref="multipleTable"
+          tooltip-effect="dark"
+          style="width: 100%"
+          @selection-change="handleSelectionChange">
+          <el-table-column
+            type="selection"
+            width="55">
+          </el-table-column>
           <el-table-column
             label="头像"
             prop="avatar_url" 
@@ -198,6 +205,9 @@ export default {
           
         }
         
+      },
+      handleSelectionChange () {
+        console.log(1)
       }
     }
 }
