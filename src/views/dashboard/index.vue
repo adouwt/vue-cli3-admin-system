@@ -1,18 +1,18 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">name:{{name}}</div>
-    <div class="dashboard-text">role:<span>{{role}}</span></div>
+    <div class="dashboard-text">role:<span>{{roles}}</span></div>
     <h4>按钮权限限制</h4>
-    <div v-if="role === 'admin'">
+    <div v-if="roles.indexOf('admin') !==-1">
       <el-button>admin</el-button>
       <el-button type="primary">admin</el-button>
 
     </div>
-    <div v-if="role === 'dev'">
+    <div v-if="roles.indexOf('dev') !==-1">
       <el-button type="success">dev</el-button>
       <el-button type="danger">dev</el-button>
     </div>
-    <div v-if="role === 'boss'">
+    <div v-if="roles.indexOf('boss') !==-1">
       <el-button type="success">boss</el-button>
       <el-button type="danger">boss</el-button>
     </div>
@@ -27,7 +27,7 @@ export default {
   computed: {
     ...mapGetters([
       'name',
-      'role'
+      'roles'
     ])
   },
   created () {

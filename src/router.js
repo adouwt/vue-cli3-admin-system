@@ -18,7 +18,7 @@ export const asyncRouterMap = [
     {
         path: '/admin/manage-users',
         component: Layout,
-        meta: {role: ['admin', 'boss']},
+        meta: {roles: ['admin', 'boss']},
         hidden: false,
         children: [{
             path: '/admin/manage-users',
@@ -30,30 +30,30 @@ export const asyncRouterMap = [
     {
         path: '/admin/manage-money',
         component: Layout,
-        meta: {role: ['admin', 'boss']},
+        meta: {roles: ['admin', 'boss']},
         hidden: false,
         children: [
             {
                 path: '/admin/manage-money',
                 name: 'ManageMoney',
                 component: () => import('@/views/admin/manage-money'),
-                meta: { title: 'ManageMoney', icon: 'el-icon-menu' }
+                meta: { title: 'Manage-money', icon: 'el-icon-menu' }
             }
         ]
     },
-    { path: '/404', component: () => import('@/views/404'), hidden: true, role: 'all' },
+    { path: '*', redirect: '/404', hidden: true }
 ];
 
-export const baseRoute = [
-    { path: '/login', component: () => import('@/views/login/index'), hidden: true, role: 'all' },
-    { path: '/register', component: () => import('@/views/register/index'), hidden: true, role: 'all' },
+export const constantRouterMap = [
+    { path: '/login', component: () => import('@/views/login/index'), hidden: true, roles: 'all' },
+    { path: '/register', component: () => import('@/views/register/index'), hidden: true, roles: 'all' },
     {
         path: '/',
         component: Layout,
         redirect: '/dashboard',
         name: 'Dashboard',
         hidden: true,
-        role: 'all',
+        roles: 'all',
         children: [{
             path: 'dashboard',
             component: () => import('@/views/dashboard/index'),
@@ -66,7 +66,7 @@ export const baseRoute = [
         name: 'Example',
         // meta: { title: 'Example', icon: 'example' },
         meta: { title: 'Example', icon: 'icon-fenleiorguangchangorqitatianchong' },
-        role: 'dev',
+        roles: 'dev',
         children: [
             {
                 path: 'table',
@@ -181,11 +181,11 @@ export const baseRoute = [
             }
         ]
     },
-    { path: '*', redirect: '/404', hidden: true }
+    { path: '/404', component: () => import('@/views/404'), hidden: true, role: 'all' },
 ]
 
 export default new Router({
     mode: "history",
     scrollBehavior: () => ({ y: 0 }),
-    routes: baseRoute
+    routes: constantRouterMap
 });

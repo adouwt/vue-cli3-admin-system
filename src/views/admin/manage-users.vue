@@ -2,8 +2,8 @@
   <div class="dashboard-container">
     <h4>用户管理：</h4>
     <div class="dashboard-text">name:{{name}}</div>
-    <div class="dashboard-text">role:<span >{{role}}</span></div>
-    <div v-if="role === 'admin' || role === 'boss'">
+    <div class="dashboard-text">role:<span >{{roles}}</span></div>
+    <div >
       <h3>所有用户</h3>
       <div>
         <el-table
@@ -88,7 +88,7 @@
                 <span>修改：</span>
                 <el-form ref="form" :model="form">
                   <el-form-item>
-                    <el-radio-group v-model="form.role">
+                    <el-radio-group v-model="form.roles">
                       <el-radio label="admin"></el-radio>
                       <el-radio label="boss"></el-radio>
                       <el-radio label="dev"></el-radio>
@@ -114,7 +114,7 @@ export default {
   computed: {
     ...mapGetters([
       'name',
-      'role'
+      'roles'
     ])
   },
   data() {
@@ -151,7 +151,7 @@ export default {
         this.id = row._id
         this.currentId = row._id
         this.currentUser = row.name
-        this.currentRole = row.role
+        this.currentRole = row.roles
       },
       handleDelete(index, row) {
         this.handleClose(row._id)

@@ -1,13 +1,12 @@
 import { register, login, logout, getInfo } from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
-import { constantRouterMap } from '@/router'
 /** eslint disabled */
 const user = {
   state: {
     token: getToken(),
     name: '',
     avatar: '',
-    role: '',
+    roles: [],
     roleRouters: []
   },
 
@@ -21,8 +20,8 @@ const user = {
     SET_AVATAR: (state, avatar) => {
       state.avatar = avatar
     },
-    SET_ROLE: (state, role) => {
-      state.role = role
+    SET_ROLES: (state, roles) => {
+      state.roles = roles
     },
     SET_ROLE_ROUTERS: (state, roleRouters) => {
       state.roleRouters = roleRouters
@@ -55,7 +54,6 @@ const user = {
           // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
           setToken(response.token)
           commit('SET_TOKEN', response.token)
-          commit('SET_ROLE', response.user.role)
           resolve(response)
         }).catch(error => {
           reject(error)
@@ -64,19 +62,18 @@ const user = {
     },
 
     // 获取用户信息
-    GetInfo({ commit, state }) {
+    GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
+          if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
+            reject('error')
+          }
           const data = response.data
-          if (data.role && data.role !== '') {
-            let rolesRouters = constantRouterMap.filter((item) => {
-              return item.meta.role.indexOf(data.role) !== -1
-            })
 
-            commit('SET_ROLE', data.role)
-            commit('SET_ROLE_ROUTERS', rolesRouters)
+          if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
+            commit('SET_ROLES', data.roles)
           } else {
-            reject('getInfo: role must be a non-null String !')
+            reject('getInfo: roles must be a non-null array !')
           }
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar_url)
@@ -84,23 +81,6 @@ const user = {
         }).catch(error => {
           reject(error)
         })
-      })
-    },
-    // 生成用户路由
-    GenerateRoutes({ commit}, data) {
-      return new Promise((resolve, reject) => {
-        let role = data;
-        // console.log(role) 
-        // 根据role 遍历所有router，
-        // 这里设置getter上的routers 采用过滤器 筛选出对应role 路由
-        // console.log(constantRouterMap)
-        let rolesRouters = constantRouterMap.filter((item) => {
-          return item.role === role
-        })
-        // console.log(rolesRouters)
-        commit('SET_ROLE_ROUTERS', rolesRouters)
-        // 将rolesRouters 存cookie ，获取用户信息的时候 再重新获取
-        resolve(rolesRouters)
       })
     },
     // 登出
