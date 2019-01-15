@@ -29,9 +29,10 @@ const admin = {
           })
     },
     // 修改用户
-    UpdateSomeOneRole ({ commit }, {id, role}) {
+    UpdateSomeOneRole ({ commit }, {id, roles}) {
+        console.log(roles)
         return new Promise((resolve, reject) => {
-            updateSomeOneRole(id, role).then(response => {
+            updateSomeOneRole(id, roles).then(response => {
                 resolve(response)
             }).catch(error => {
                 reject(error)

@@ -61,7 +61,7 @@ export default {
                 username: "admin",
                 password: "123456",
                 type: 'signup',
-                role: 'admin'
+                roles: ['dev']
             },
             loginRules: {
                 username: [

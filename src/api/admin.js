@@ -18,13 +18,13 @@ export function deleteOneUser(id) {
       })
 }
 
-export function updateSomeOneRole(id, role) {
+export function updateSomeOneRole(id, roles) {
   return request({
       url: '/post/updatesomerole',
       method: 'post',
       data: {
           id: id,
-          role: role
+          roles: roles
       }
     })
 }

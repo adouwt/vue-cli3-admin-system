@@ -30,7 +30,7 @@
           </el-table-column>
           <el-table-column
             label="Role"
-            prop="role">
+            prop="roles">
           </el-table-column>
           <el-table-column
             label="密码"
@@ -38,7 +38,7 @@
             >
           </el-table-column>
           <el-table-column
-            v-if="role === 'admin'"
+            v-if="roles[0] === 'admin'"
             align="right"
             label="操作"
             prop="_id">
@@ -147,6 +147,7 @@ export default {
             });
       },
       handleEdit(index, row) {
+        console.log(row)
         this.dialogFormVisible = true
         this.id = row._id
         this.currentId = row._id
@@ -181,6 +182,7 @@ export default {
       },
       edited (name) {
         this.dialogFormVisible = false
+        console.log(this.form.roles, 'this.form.roles')
         if(name === 'cancel') {
           this.$message({
             type: 'info',
@@ -188,7 +190,7 @@ export default {
           });
         } else if(name === 'ok'){
           this.$store
-            .dispatch("UpdateSomeOneRole", {id: this.currentId, role: this.form.role})
+            .dispatch("UpdateSomeOneRole", {id: this.currentId, roles: this.form.roles})
             .then((res) => {
               this.initData()
               this.$message({

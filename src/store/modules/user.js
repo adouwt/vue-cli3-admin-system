@@ -32,10 +32,10 @@ const user = {
     // 注册
     Register({ commit }, userInfo) {
       const username = userInfo.username.trim()
-      const role = userInfo.role.trim()
+      const roles = userInfo.roles
       const type = userInfo.type.trim()
       return new Promise((resolve, reject) => {
-        register(username, userInfo.password, type, role).then(response => {
+        register(username, userInfo.password, type, roles).then(response => {
           // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
           // console.log('actions', response)
           setToken(response.token)
@@ -69,7 +69,6 @@ const user = {
             reject('error')
           }
           const data = response.data
-
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
             commit('SET_ROLES', data.roles)
           } else {
