@@ -61,6 +61,33 @@
           </el-table-column>
         </el-table>
       </div>
+      <div>
+        <h3>添加用户</h3>
+        <div class="add-user">
+          <el-form :model="userInfo" :rules="rules" ref="userInfo" label-width="100px" class="demo-ruleForm">
+            <el-form-item label="姓名" prop="username">
+              <el-input v-model="userInfo.username"></el-input>
+            </el-form-item>
+            <el-form-item label="密码" prop="password">
+                <el-input v-model="userInfo.password" type="txt"></el-input>
+            </el-form-item>
+            <el-form-item label="角色" prop="roles">
+              <el-checkbox-group v-model="userInfo.roles">
+                <el-checkbox label="dev" name="roles"></el-checkbox>
+                <el-checkbox label="admin" name="roles"></el-checkbox>
+                <el-checkbox label="boss" name="roles"></el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
+            <el-form-item label="激活用户" prop="delivery">
+              <el-switch v-model="userInfo.delivery"></el-switch>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="submitForm('userInfo')">立即创建</el-button>
+              <el-button @click="resetForm('userInfo')">重置</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+      </div>
     </div>
     <!-- 删除弹框的提示 -->
     <div>
@@ -129,7 +156,25 @@ export default {
         currentUser: '',
         currentRole: '',
         currentId: '',
-        form: {}
+        form: {},
+        userInfo: {
+          username: '',
+          password: '',
+          roles: [],
+          delivery: false,
+          type: 'signup'
+        },
+        rules: {
+          username: [
+            { required: true, message: '请输入姓名', trigger: 'blur' }
+          ],
+          password: [
+            { required: true, message: '请输入6-20位数字、字母、或下划线', trigger: 'blur', pattern: /^(\w){6,20}$/ }
+          ],
+          roles: [
+            { type: 'array', required: true, message: '请至少选择一个角色', trigger: 'change' }
+          ]
+        }
       }
     },
     created () {
@@ -210,6 +255,33 @@ export default {
       },
       handleSelectionChange () {
         console.log(1)
+      },
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            // 注册的接口
+            this.$store
+                .dispatch("Register", this.userInfo)
+                .then((res) => {
+                    console.log(res, '添加用户成功') // 这里 res 接收了来自 actions 里面 resolve(response)
+                    this.$message({
+                      type: 'success',
+                      message: '添加用户成功!'
+                    });
+                    // this.$router.push({ path: "/" }); // 这里会触发permission.js 的路由导航守卫，拉取用户信息等
+                    this.initData()
+                })
+                .catch((err) => {
+                    // console.log(err)
+                    // this.$message.error(`错误信息${err.message}`);
+                });
+          } else {
+            return false;
+          }
+        });
+      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
       }
     }
 }
@@ -224,11 +296,15 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+
 }
 .role-wrapper {
   label {
     // margin-right: 2em;
     // cursor: pointer;
   }
+}
+.add-user {
+  width: 50%;
 }
 </style>

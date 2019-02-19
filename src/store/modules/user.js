@@ -38,10 +38,11 @@ const user = {
         register(username, userInfo.password, type, roles).then(response => {
           // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
           // console.log('actions', response)
-          setToken(response.token)
-          commit('SET_TOKEN', response.token)
+          // setToken(response.token) // 注册成功直接登陆 使用
+          // commit('SET_TOKEN', response.token) // 注册成功直接登陆 使用
           resolve(response)
         }).catch(error => {
+          console.log(error)
           reject(error)
         })
       })
