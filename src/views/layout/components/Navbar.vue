@@ -4,6 +4,7 @@
     <breadcrumb></breadcrumb>
     <el-dropdown class="avatar-container" trigger="click">
       <div class="avatar-wrapper">
+        <i>角色： {{roles}}</i> 
         <span class="name">{{name}}</span>
         <img class="user-avatar" :src="avatar+'?imageView2/1/w/80/h/80'">
         <i class="el-icon-caret-bottom"></i>
@@ -36,7 +37,8 @@ export default {
     ...mapGetters([
       'sidebar',
       'avatar',
-      'name'
+      'name',
+      'roles'
     ])
   },
   methods: {
@@ -78,6 +80,7 @@ export default {
       cursor: pointer;
       position: relative;
       .name {
+        margin-left: 10px;
         color: #10f0f0;
         display: inline-block;
         vertical-align: middle;

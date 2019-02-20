@@ -17,7 +17,7 @@
         </el-checkbox-group>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="onSubmit">发布</el-button>
+        <el-button type="primary" @click="onSubmit" v-if="roles.indexOf('admin')>-1 || roles.indexOf('boss')>-1">发布</el-button>
         <el-button @click="onSave">保存草稿</el-button>
       </el-form-item>
     </el-form>
@@ -26,7 +26,14 @@
 
 <script>
 import { VueEditor, Quill } from 'vue2-editor'
+import { mapGetters } from 'vuex'
 export default {
+  computed: {
+    ...mapGetters([
+      'name',
+      'roles'
+    ])
+  },
   data() {
     return {
       article: {

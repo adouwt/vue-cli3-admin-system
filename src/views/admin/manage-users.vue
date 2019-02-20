@@ -21,7 +21,7 @@
             prop="avatar_url" 
             width="120">
               <template slot-scope="scope">
-                <img :src="scope.row.avatar_url" alt="" width="100">
+                <img :src="scope.row.avatar_url" alt="" width="50">
               </template>
           </el-table-column>
           <el-table-column
@@ -31,11 +31,9 @@
           <el-table-column
             label="Role"
             prop="roles">
-          </el-table-column>
-          <el-table-column
-            label="密码"
-            prop="password" 
-            >
+              <template slot-scope="scope">
+                <span v-for="item in scope.row.roles" :key="item" class="role-span">{{item}}</span>
+              </template>
           </el-table-column>
           <el-table-column
             v-if="roles[0] === 'admin'"
@@ -44,7 +42,7 @@
             prop="_id">
             <template slot="header" slot-scope="scope">
               <el-input
-                v-model="search"
+                v-model="scope.row._id"
                 size="mini"
                 placeholder="输入关键字搜索"/>
             </template>
@@ -61,7 +59,7 @@
           </el-table-column>
         </el-table>
       </div>
-      <div>
+      <div v-if="roles[0] === 'admin'">
         <h3>添加用户</h3>
         <div class="add-user">
           <el-form :model="userInfo" :rules="rules" ref="userInfo" label-width="100px" class="demo-ruleForm">
@@ -296,7 +294,6 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
-
 }
 .role-wrapper {
   label {
@@ -306,5 +303,8 @@ export default {
 }
 .add-user {
   width: 50%;
+}
+.role-span {
+  margin-right: 15px;
 }
 </style>
