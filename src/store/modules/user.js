@@ -38,6 +38,24 @@ const user = {
         register(username, userInfo.password, type, roles).then(response => {
           // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
           // console.log('actions', response)
+          setToken(response.token) // 注册成功直接登陆 使用
+          commit('SET_TOKEN', response.token) // 注册成功直接登陆 使用
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
+    },
+    // 管理员添加用户
+    adminRegister({ commit }, userInfo) {
+      const username = userInfo.username.trim()
+      const roles = userInfo.roles
+      const type = userInfo.type.trim()
+      return new Promise((resolve, reject) => {
+        register(username, userInfo.password, type, roles).then(response => {
+          // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
+          // console.log('actions', response)
           // setToken(response.token) // 注册成功直接登陆 使用
           // commit('SET_TOKEN', response.token) // 注册成功直接登陆 使用
           resolve(response)

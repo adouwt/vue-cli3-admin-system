@@ -259,7 +259,7 @@ export default {
           if (valid) {
             // 注册的接口
             this.$store
-                .dispatch("Register", this.userInfo)
+                .dispatch("adminRegister", this.userInfo)
                 .then((res) => {
                     console.log(res, '添加用户成功') // 这里 res 接收了来自 actions 里面 resolve(response)
                     this.$message({
