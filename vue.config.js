@@ -76,7 +76,16 @@ module.exports = {
         hotOnly: false,
         open:true,
         // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli/cli-service.md#配置代理
-        proxy: 'http://localhost:4000',
+        proxy: {
+            '/nodejsapi': {
+                target: 'http://vue.wtodd.wang:4000',
+                changeOrigin: true,
+                ws: true,
+                pathRewrite: {
+                  '^/nodejsapi': ''
+                }
+            }
+        },
         before: app => { }
     },
 
