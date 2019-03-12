@@ -1,7 +1,7 @@
 /**
- * Created by jiachenpan on 16/11/18.
+ * 
+ * @param {*} str 
  */
-
 export function isvalidUsername(str) {
   // const valid_map = ['admin', 'editor']
   const valid_map = str

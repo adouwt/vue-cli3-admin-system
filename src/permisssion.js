@@ -9,18 +9,22 @@ NProgress.configure({ showSpinner: false })// NProgress Configuration
 
 // permission judge function
 function hasPermission(roles, permissionRoles) {
-  if (roles.indexOf('admin') >= 0) return true // admin permission passed directly
-  if (!permissionRoles) return true
+  if (roles.indexOf('admin') >= 0) {
+    return true // 管理员直接通过
+  }
+  if (!permissionRoles) {
+    return true // 如果没有权限限制 直接通过
+  }
   return roles.some(role => permissionRoles.indexOf(role) >= 0)
 }
 
-const whiteList = ['/login', '/auth-redirect', '/register']// no redirect whitelist
+const whiteList = ['/login', '/auth-redirect', '/register']// 没有限制登陆要求的页面
 
 router.beforeEach((to, from, next) => {
   NProgress.start() // start progress bar
-  if (getToken()) { // determine if there has token
+  if (getToken()) { // 存在登陆信息
     if (to.path === '/login') {
-      next({ path: '/' })
+      next({ path: '/' }) // 登陆 && 登陆界面 
       NProgress.done() // if current page is dashboard will not trigger	afterEach hook, so manually handle it
     } else {
       // console.log(store.getters.roles.length)

@@ -1,7 +1,8 @@
 /**
- * Created by jiachenpan on 16/11/18.
+ * 
+ * @param {*} time 
+ * @param {*} cFormat 
  */
-
 export function parseTime(time, cFormat) {
   if (arguments.length === 0) {
     return null
