@@ -10,7 +10,7 @@
  ##注意事项：<br><br>
  1、由于个人风格原因，该项目去掉了eslint限制，需要的同学可以自己增加；<br><br>
  2、为了跑通整个项目，这里我使用nodejs写了几个接口进行验证，包括token、userinfo、list，并且使用cors开放了跨域，需要的同学可以直接使用，无需代理；<br><br>
- 3、后端使用的是express + mongodb,地址为： <a href="https://github.com/adouwt/es6-loves">https://github.com/adouwt/es6-loves</a>，用的是es6的语法写的后端服务,这个项目都在一直更新，如有需要，可以关注，私聊讨论。
+ 3、后端使用的是express + mongodb,地址为： <a href="https://github.com/adouwt/nodejsAPI">https://github.com/adouwt/nodejsAPI</a>，用的是es6的语法写的后端服务,这个项目都在一直更新，如有需要，可以关注，私聊讨论。
  4、可以直接注册用户，默认为dev角色，<a target="_blank" href="http://localhost:8080/register">注册</a>,admin登录进去，可以新建用户
  <strong>如果这个项目对觉得OK，可以点击右上角的star啊</strong>
  
