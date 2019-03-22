@@ -20,12 +20,22 @@
         <el-button type="primary" @click="onSubmit" v-if="roles.indexOf('admin')>-1 || roles.indexOf('boss')>-1">发布</el-button>
         <el-button @click="onSave">保存草稿</el-button>
       </el-form-item>
+
+      <div>
+        <h3>下面是tinymce</h3>
+        <div>
+          <editor v-model="content"></editor>
+          <hr>
+          <el-button @click="onSave">tinymce保存草稿</el-button>
+        </div>
+      </div>
     </el-form>
   </div>
 </template>
 
 <script>
 import { VueEditor, Quill } from 'vue2-editor'
+import Editor from '@tinymce/tinymce-vue';
 import { mapGetters } from 'vuex'
 export default {
   computed: {
@@ -39,11 +49,13 @@ export default {
       article: {
         title: '',
         type: [],
-      }
+      },
+      content: '<div><div>134567890</div></div>'
     }
   },
   components: {
-    VueEditor
+    VueEditor,
+    Editor
   },
   methods: {
     onSubmit() {
@@ -65,6 +77,9 @@ label{
 }
 .el-form-item__label {
   text-align: left;
+}
+.tox-notification.tox-notification--in.tox-notification--warning {
+  display: none;
 }
 </style>
 

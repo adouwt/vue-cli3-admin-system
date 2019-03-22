@@ -9,6 +9,7 @@
     "analyze": "vue-cli-service build"
   },
   "dependencies": {
+    "@tinymce/tinymce-vue": "^2.0.0",
     "axios": "0.17.1",
     "cross-env": "^5.2.0",
     "element-ui": "2.3.4",
