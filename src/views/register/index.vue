@@ -23,15 +23,32 @@
                 <!-- <span class="show-pwd" @click="showPwd"><svg-icon icon-class="eye" /></span> -->
                 <span class="show-pwd iconfont icon-yanjing" @click="showPwd"></span>
             </el-form-item>
+
+            <el-form-item prop="email"  ref="email">
+                <span class="fontcontainer">
+                    <span class="iconfont icon-mima"></span>
+                </span>
+                <el-input name="email" type="email" @keyup.enter.native="handleLogin" v-model="registerForm.email" autoComplete="on"
+                placeholder="请输入邮箱地址 email"></el-input>
+                <el-button type="primary"  :disabled="disabled" style="width:100%;" :loading="loading" @click.native.prevent="sendEmail">
+                发送验证码
+                </el-button>
+            </el-form-item>
+
+            <el-form-item prop="registerCode">
+                <span class="fontcontainer">
+                    <span class="iconfont icon-mima"></span>
+                </span>
+                <el-input name="registerCode" type="text" @keyup.enter.native="handleLogin" v-model="registerForm.registerCode" autoComplete="on"
+                placeholder="请输入邮箱验证码"></el-input>
+            </el-form-item>
+
+
             <el-form-item>
                 <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
                 Sign up
                 </el-button>
             </el-form-item>
-            <!-- <div class="tips">
-                <span style="margin-right:20px;">username: admin</span>
-                <span> password: admin</span>
-            </div> -->
         </el-form>
     </div>
 </template>
@@ -56,12 +73,32 @@ export default {
                 callback();
             }
         };
+        const validateEmail = (rule, value, callback) => {
+            let emailReg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g;
+            if (!emailReg.test(value)) {
+                callback(new Error("请输入正确的邮箱"));
+            } else {
+                callback();
+            }
+        };
+
+        const registerCode = (rule, value, callback) => {
+            if (!value) {
+                callback(new Error("请输入正确的邮箱验证码"));
+            } else {
+                callback();
+            }
+        };
+
         return {
+            disabled: false,
             registerForm: {
                 username: "admin",
                 password: "123456",
                 type: 'signup',
-                roles: ['dev']
+                roles: ['dev'],
+                email:'',
+                registerCode: ''
             },
             loginRules: {
                 username: [
@@ -73,6 +110,12 @@ export default {
                 ],
                 password: [
                     { required: true, trigger: "blur", validator: validatePass }
+                ],
+                email: [
+                    { required: true, trigger: "blur", validator: validateEmail }
+                ],
+                registerCode: [
+                    { required: true, trigger: "blur", validator: registerCode }
                 ]
             },
             loading: false,
@@ -88,6 +131,7 @@ export default {
             }
         },
         handleLogin() {
+            console.log(this.registerForm)
             this.$refs.registerForm.validate(valid => {
                 if (valid) {
                     this.loading = true;
@@ -106,6 +150,30 @@ export default {
                     return false;
                 }
             });
+        },
+        sendEmail(){
+            this.disabled = true
+            let that = this
+            setTimeout(()=>{
+                this.disabled = false;
+            },1000)
+            if (this.registerForm.email) {
+                this.loading = true;
+                this.$store
+                    .dispatch("SendEmail", this.registerForm.email)
+                    .then((res) => {
+                        this.loading = false;
+                        this.disabled = true
+                    })
+                    .catch(() => {
+                        this.loading = false;
+                        this.disabled = false;
+                    });
+            } else {
+                console.log("请输入邮箱!!");
+                return false;
+            }
+            
         }
     }
 };

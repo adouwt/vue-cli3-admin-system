@@ -10,8 +10,8 @@ export function login(username, password) {
     }
   })
 }
-
-export function register(username, password, type, roles) {
+// 像这样的结构不好，前端页面添加一个参数，这里也相应的添加
+export function register(username, password, type, roles, email, registerCode) {
   // console.log('register in login.js')
   return request({
     url: '/post/register',
@@ -20,7 +20,9 @@ export function register(username, password, type, roles) {
       username,
       password,
       type: type,
-      roles: roles
+      roles: roles,
+      email: email,
+      registerCode: registerCode
     }
   })
 }
@@ -38,5 +40,15 @@ export function logout(token) {
     url: '/post/logout',
     method: 'post',
     params: { token }
+  })
+}
+
+export function sendEmail(email) {
+  return request({
+    url: '/post/sendEmailCode',
+    method: 'post',
+    data: {
+      email
+    }
   })
 }

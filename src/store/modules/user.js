@@ -1,4 +1,4 @@
-import { register, login, logout, getInfo } from '@/api/login'
+import { register, login, logout, getInfo ,sendEmail} from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 /** eslint disabled */
 const user = {
@@ -29,13 +29,27 @@ const user = {
   },
 
   actions: {
+    // 发送验证码
+    SendEmail({ commit }, email) {
+      console.log(email,'email')
+      return new Promise((resolve, reject) => {
+        sendEmail(email).then(response => {
+          resolve(response)
+        }).catch(error => {
+          console.log(error)
+          reject(error)
+        })
+      })
+    },
     // 注册
     Register({ commit }, userInfo) {
       const username = userInfo.username.trim()
       const roles = userInfo.roles
       const type = userInfo.type.trim()
+      const email = userInfo.email
+      const registerCode = userInfo.registerCode
       return new Promise((resolve, reject) => {
-        register(username, userInfo.password, type, roles).then(response => {
+        register(username, userInfo.password, type, roles, email, registerCode).then(response => {
           // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
           // console.log('actions', response)
           setToken(response.token) // 注册成功直接登陆 使用
