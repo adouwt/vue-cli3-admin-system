@@ -24,17 +24,16 @@
                 <span class="show-pwd iconfont icon-yanjing" @click="showPwd"></span>
             </el-form-item>
 
-            <el-form-item prop="email"  ref="email">
+            <el-form-item prop="email"  ref="email" class="email-wrapper">
                 <span class="fontcontainer">
                     <span class="iconfont icon-mima"></span>
                 </span>
-                <el-input name="email" type="email" @keyup.enter.native="handleLogin" v-model="registerForm.email" autoComplete="on"
+                <el-input name="email" type="email"  v-model="registerForm.email" autoComplete="on"
                 placeholder="请输入邮箱地址 email"></el-input>
-                <el-button type="primary"  :disabled="disabled" style="width:100%;" :loading="loading" @click.native.prevent="sendEmail">
-                发送验证码
-                </el-button>
             </el-form-item>
-
+            <el-button type="primary"  :disabled="disabled" style="width:30%;" :loading="loading" @click.native.prevent="sendEmail">
+                发送验证码
+            </el-button>
             <el-form-item prop="registerCode">
                 <span class="fontcontainer">
                     <span class="iconfont icon-mima"></span>
@@ -54,42 +53,13 @@
 </template>
 
 <script>
+import { Message } from 'element-ui'
 import { isvalidUsername } from "@/utils/validate";
+import { constants } from 'crypto';
 
 export default {
     name: "register",
     data() {
-        const validateUsername = (rule, value, callback) => {
-            if (!isvalidUsername(value)) {
-                callback(new Error("请输入正确的用户名"));
-            } else {
-                callback();
-            }
-        };
-        const validatePass = (rule, value, callback) => {
-            if (value.length < 5) {
-                callback(new Error("密码不能小于5位"));
-            } else {
-                callback();
-            }
-        };
-        const validateEmail = (rule, value, callback) => {
-            let emailReg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g;
-            if (!emailReg.test(value)) {
-                callback(new Error("请输入正确的邮箱"));
-            } else {
-                callback();
-            }
-        };
-
-        const registerCode = (rule, value, callback) => {
-            if (!value) {
-                callback(new Error("请输入正确的邮箱验证码"));
-            } else {
-                callback();
-            }
-        };
-
         return {
             disabled: false,
             registerForm: {
@@ -102,20 +72,16 @@ export default {
             },
             loginRules: {
                 username: [
-                    {
-                        required: true,
-                        trigger: "blur",
-                        validator: validateUsername
-                    }
+                    { required: true, message: '请输入用户名', trigger: ['blur', 'change'], pattern: /.{4,8}$/ }
                 ],
                 password: [
-                    { required: true, trigger: "blur", validator: validatePass }
-                ],
-                email: [
-                    { required: true, trigger: "blur", validator: validateEmail }
+                    { required: true, message: '请输入正确的密码', trigger: ['blur', 'change'], pattern: /^[`~!@#%&_=:;,'"<>/\w\.\^\$\?\*\+\-\(\)\[\]\{\}\|\\]{6,16}$/ }
                 ],
                 registerCode: [
-                    { required: true, trigger: "blur", validator: registerCode }
+                    { required: true, message: '请输入四位验证码', trigger: ['blur', 'change'], pattern: /\d{4}$/ }
+                ],
+                email: [
+                    { required: true, message: '请输入正确的邮箱', trigger: ['blur', 'change'], pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g }
                 ]
             },
             loading: false,
@@ -132,7 +98,7 @@ export default {
         },
         handleLogin() {
             console.log(this.registerForm)
-            this.$refs.registerForm.validate(valid => {
+            this.$refs.registerForm.validate(valid => {  
                 if (valid) {
                     this.loading = true;
                     this.$store
@@ -152,12 +118,13 @@ export default {
             });
         },
         sendEmail(){
+            let emailReg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g
             this.disabled = true
             let that = this
             setTimeout(()=>{
                 this.disabled = false;
             },1000)
-            if (this.registerForm.email) {
+            if (emailReg.test(this.registerForm.email)) {
                 this.loading = true;
                 this.$store
                     .dispatch("SendEmail", this.registerForm.email)
@@ -170,10 +137,9 @@ export default {
                         this.disabled = false;
                     });
             } else {
-                console.log("请输入邮箱!!");
+                Message.error("请输入邮箱!!");
                 return false;
             }
-            
         }
     }
 };
@@ -269,6 +235,12 @@ $light_gray: #eee;
     .fontcontainer{
         color:#889aa4;
         padding-left:10px;
+    }
+
+    .email-wrapper {
+        display: inline-block;
+        width: 66%;
+        margin-right: 15px;
     }
 }
 </style>
