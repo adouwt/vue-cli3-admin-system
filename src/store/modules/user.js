@@ -98,8 +98,9 @@ const user = {
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
         getInfo(state.token).then(response => {
-          if (!response.data) { // 由于mockjs 不支持自定义状态码只能这样hack
-            reject('error')
+          // console.log(response)
+          if (response.data.expired) {
+            reject('登录已经过期，请重新登录！')
           }
           const data = response.data
           if (data.roles && data.roles.length > 0) { // 验证返回的roles是否是一个非空数组
@@ -111,6 +112,7 @@ const user = {
           commit('SET_AVATAR', data.avatar_url)
           resolve(response)
         }).catch(error => {
+          // console.log(error, '115')
           reject(error)
         })
       })
