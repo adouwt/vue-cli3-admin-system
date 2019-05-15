@@ -1,4 +1,4 @@
-import { getAllUser, deleteOneUser, updateSomeOneRole } from '@/api/admin'
+import { getAllUser, GetAllUserFromPage, deleteOneUser, updateSomeOneRole } from '@/api/admin'
 /** eslint disabled */
 const admin = {
   state: {
@@ -9,9 +9,19 @@ const admin = {
 
   actions: {
     // 获取所有用户
-    GetAllUser({ commit }, {}) {
+    GetAllUser({ commit }, {page}) {
         return new Promise((resolve, reject) => {
-            getAllUser().then(response => {
+            getAllUser(page).then(response => {
+                resolve(response)
+            }).catch(error => {
+                reject(error)
+            })
+      })
+    },
+    // 获取所有用户(分页获取)
+    GetAllUserFromPage({ commit }, {page}) {
+        return new Promise((resolve, reject) => {
+            GetAllUserFromPage(page).then(response => {
                 resolve(response)
             }).catch(error => {
                 reject(error)

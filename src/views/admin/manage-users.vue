@@ -59,6 +59,18 @@
           </el-table-column>
         </el-table>
       </div>
+
+      <div>
+          <el-pagination
+            background
+            layout="prev, pager, next"
+            :page-size="5"
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :total=totalNumber>
+          </el-pagination>
+      </div>
+      <hr>
       <div v-if="roles[0] === 'admin'">
         <h3>添加用户</h3>
         <div class="add-user">
@@ -134,6 +146,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { Dialog, notify, MessageBox } from 'element-ui'
+import { constants } from 'crypto';
 export default {
   name: 'ManageUsers',
   computed: {
@@ -145,6 +158,7 @@ export default {
   data() {
       return {
         tableData: [],
+        totalNumber: 20,
         search: '',
         dialogVisible: false,
         dialogFormVisible: false,
@@ -183,11 +197,25 @@ export default {
         this.$store
             .dispatch("GetAllUser", {})
             .then((res) => {
-              this.tableData = res.users
+              // this.tableData = res.users
+              this.totalNumber = res.users.length
+              console.log(this.totalNumber)
             })
             .catch(() => {
               this.loading = false;
             });
+
+
+        this.$store
+          .dispatch("GetAllUserFromPage", {page: 1})
+          .then((res) => {
+            this.tableData = res.users
+          })
+          .catch(() => {
+            this.loading = false;
+          });
+
+
       },
       handleEdit(index, row) {
         console.log(row)
@@ -280,6 +308,19 @@ export default {
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      },
+      handleSizeChange(val) {
+        console.log(val)
+      },
+      handleCurrentChange(val) {
+        this.$store
+          .dispatch("GetAllUserFromPage", {page: val})
+          .then((res) => {
+            this.tableData = res.users
+          })
+          .catch(() => {
+            this.loading = false;
+          });
       }
     }
 }
