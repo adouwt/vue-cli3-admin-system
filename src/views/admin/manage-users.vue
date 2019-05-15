@@ -81,6 +81,10 @@
             <el-form-item label="密码" prop="password">
                 <el-input v-model="userInfo.password" type="txt"></el-input>
             </el-form-item>
+            <el-form-item label="年龄" prop="age">
+                <el-input v-model="userInfo.age" type="txt"></el-input>
+            </el-form-item>
+
             <el-form-item label="角色" prop="roles">
               <el-checkbox-group v-model="userInfo.roles">
                 <el-checkbox label="dev" name="roles"></el-checkbox>
@@ -183,6 +187,9 @@ export default {
           password: [
             { required: true, message: '请输入6-20位数字、字母、或下划线', trigger: 'blur', pattern: /^(\w){6,20}$/ }
           ],
+          age: [
+            { required: true, message: '请输入正确的年龄', trigger: 'blur', pattern: /^\d{1,2}$/ }
+          ],
           roles: [
             { type: 'array', required: true, message: '请至少选择一个角色', trigger: 'change' }
           ]
@@ -195,20 +202,9 @@ export default {
     methods: {
       initData() {
         this.$store
-            .dispatch("GetAllUser", {})
-            .then((res) => {
-              // this.tableData = res.users
-              this.totalNumber = res.users.length
-              console.log(this.totalNumber)
-            })
-            .catch(() => {
-              this.loading = false;
-            });
-
-
-        this.$store
           .dispatch("GetAllUserFromPage", {page: 1})
           .then((res) => {
+            this.totalNumber = res.allDataLength
             this.tableData = res.users
           })
           .catch(() => {
