@@ -20,12 +20,13 @@ export function deleteOneUser(id) {
       })
 }
 
-export function GetAllUserFromPage(page) {
+export function GetAllUserFromPage(page, skip) {
   return request({
     url: '/post/getUsersFromPage',
     method: 'post',
     data: {
-      page: page
+      page: page,
+      skip: skip
     }
   })
 }

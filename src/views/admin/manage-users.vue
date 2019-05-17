@@ -202,7 +202,7 @@ export default {
     methods: {
       initData() {
         this.$store
-          .dispatch("GetAllUserFromPage", {page: 1})
+          .dispatch("GetAllUserFromPage", {page: 1, skip: true})
           .then((res) => {
             this.totalNumber = res.allDataLength
             this.tableData = res.users
@@ -310,7 +310,7 @@ export default {
       },
       handleCurrentChange(val) {
         this.$store
-          .dispatch("GetAllUserFromPage", {page: val})
+          .dispatch("GetAllUserFromPage", {page: val, skip: true})
           .then((res) => {
             this.tableData = res.users
           })

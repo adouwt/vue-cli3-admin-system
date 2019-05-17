@@ -19,9 +19,10 @@ const admin = {
       })
     },
     // 获取所有用户(分页获取)
-    GetAllUserFromPage({ commit }, {page}) {
+    GetAllUserFromPage({ commit }, {page, skip}) {
         return new Promise((resolve, reject) => {
-            GetAllUserFromPage(page).then(response => {
+            console.log(page, skip)
+            GetAllUserFromPage(page, skip).then(response => {
                 resolve(response)
             }).catch(error => {
                 reject(error)
