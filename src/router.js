@@ -24,7 +24,7 @@ export const asyncRouterMap = [
             path: '/admin/manage-users',
             name: 'ManageUsers',
             component: () => import('@/views/admin/manage-users'),
-            meta: { title: 'manage-users', icon: 'el-icon-menu' }
+            meta: { title: 'manage-users', icon: 'icon-huiyuan' }
         }]
     },
     {
@@ -37,7 +37,7 @@ export const asyncRouterMap = [
                 path: '/admin/manage-money',
                 name: 'ManageMoney',
                 component: () => import('@/views/admin/manage-money'),
-                meta: { title: 'Manage-money', icon: 'el-icon-menu' }
+                meta: { title: 'Manage-money', icon: 'icon-huiyuanjifen' }
             }
         ]
     },
@@ -65,7 +65,7 @@ export const constantRouterMap = [
         redirect: '/example/table',
         name: 'Example',
         // meta: { title: 'Example', icon: 'example' },
-        meta: { title: 'Example', icon: 'icon-fenleiorguangchangorqitatianchong' },
+        meta: { title: 'Example', icon: 'icon-qudaoguanli' },
         roles: 'dev',
         children: [
             {
@@ -96,7 +96,7 @@ export const constantRouterMap = [
                 path: 'index',
                 name: 'Edit',
                 component: () => import('@/views/edit/index'),
-                meta: { title: 'edit', icon: 'icon-xinfengtianchong' }
+                meta: { title: 'edit', icon: 'icon-huiyuandingyi' }
             }
         ]
     },
@@ -108,7 +108,7 @@ export const constantRouterMap = [
         name: 'nested',
         meta: {
             title: 'nested',
-            icon: 'icon-wenbenbianjitianchong'
+            icon: 'icon-shijianguanli'
         },
         children: [
             {
@@ -164,7 +164,7 @@ export const constantRouterMap = [
         redirect: '/display/tech',
         name: 'Display',
         // meta: { title: 'Example', icon: 'example' },
-        meta: { title: 'display', icon: 'icon-fenleiorguangchangorqitatianchong' },
+        meta: { title: 'display', icon: 'icon-yingxiaocehua' },
         role: 'dev',
         children: [
             {

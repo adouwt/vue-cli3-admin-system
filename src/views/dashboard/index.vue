@@ -21,7 +21,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
-
+// TODO添加图标统计
 export default {
   name: 'dashboard',
   computed: {
