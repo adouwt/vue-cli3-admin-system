@@ -1,7 +1,7 @@
 <template>
     <div class="login-container">
         <el-form class="login-form" autoComplete="on" :model="loginForm" :rules="loginRules" ref="loginForm" label-position="left">
-            <h3 class="title">vue-cli3 admin</h3>
+            <h3 class="title">** 管理系统 **</h3>
             <el-form-item prop="username">
                 <span class="fontcontainer">
                     <span class="iconfont icon-yonghu"></span>
@@ -114,6 +114,8 @@ $light_gray: #eee;
 
 /* reset element-ui css */
 .login-container {
+    background: url(../../../public/bg.jpg);
+    background-size: cover;
     .el-input {
         display: inline-block;
         height: 47px;
@@ -152,11 +154,13 @@ $light_gray: #eee;
     background-color: $bg;
     .login-form {
         position: absolute;
-        left: 0;
-        right: 0;
+        left: 50%;
+        top: 50%;
         width: 520px;
         padding: 35px 35px 15px 35px;
-        margin: 120px auto;
+        transform: translate(-50%,-50%);
+        background-color: rgba(255,255,255,0.3);
+        border-radius: 4px;
     }
     .tips {
         font-size: 14px;
