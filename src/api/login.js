@@ -27,6 +27,22 @@ export function register(username, password, type, roles, email, registerCode) {
   })
 }
 
+// 管理员添加用户
+export function adminRegister(username, password, roles) {
+  // console.log('register in login.js')
+  return request({
+    url: '/post/adminRegister',
+    method: 'post',
+    data: {
+      username,
+      password,
+      roles: roles
+    }
+  })
+}
+
+
+
 export function getInfo(token) {
   return request({
     url: '/get/user/info',
