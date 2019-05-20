@@ -65,9 +65,10 @@ const user = {
     adminRegister({ commit }, userInfo) {
       const username = userInfo.username.trim()
       const roles = userInfo.roles
-      const type = userInfo.type.trim()
+      const age = userInfo.age.trim()
       return new Promise((resolve, reject) => {
-        adminRegister(username, userInfo.password, roles).then(response => {
+        // 修改成传递一个对象过来，在源头处修改，省得在很多地方逐个添加参数
+        adminRegister(username, userInfo.password, roles, age).then(response => {
           // then 这里接收到的只要成功的提示，失败的情况已经在拦截器里面处理
           // console.log('actions', response)
           // setToken(response.token) // 注册成功直接登陆 使用

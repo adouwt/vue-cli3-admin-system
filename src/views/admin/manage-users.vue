@@ -178,7 +178,8 @@ export default {
           password: '',
           roles: [],
           delivery: false,
-          type: 'signup'
+          type: 'signup',
+          age: ''
         },
         rules: {
           username: [

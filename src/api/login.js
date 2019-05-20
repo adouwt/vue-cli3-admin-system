@@ -28,7 +28,7 @@ export function register(username, password, type, roles, email, registerCode) {
 }
 
 // 管理员添加用户
-export function adminRegister(username, password, roles) {
+export function adminRegister(username, password, roles, age) {
   // console.log('register in login.js')
   return request({
     url: '/post/adminRegister',
@@ -36,7 +36,8 @@ export function adminRegister(username, password, roles) {
     data: {
       username,
       password,
-      roles: roles
+      roles: roles,
+      age: age
     }
   })
 }
