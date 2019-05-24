@@ -12,7 +12,10 @@ const TechnologyIndex = () =>  import(/* webpackChunkName: "TechnologyIndex" */ 
 // const FictionIndex = require(/* webpackChunkName: "FictionIndex" */ '@/views/display/fiction')
 const FictionIndex = () => import(/* webpackChunkName: "FictionIndex" */ '@/views/display/fiction')
 
+const MyIndex = () => import(/* webpackChunkName: "MyIndex" */ '@/views/center/index')
+
 Vue.use(Router)
+// hidden: false, 控制是否在左侧导航显示，用作过滤
 
 export const asyncRouterMap = [
     {
@@ -178,6 +181,20 @@ export const constantRouterMap = [
                 name: 'Fiction',
                 component: FictionIndex,
                 meta: { title: 'Fiction', icon: 'icon-gengduotianchong' }
+            }
+        ]
+    },
+    {
+        path: '/my',
+        component: Layout,
+        name: '个人中心', 
+        hidden: true, // 左侧路由导航会遍历这个名称，如果没有，就不会显示在左侧导航表中
+        children: [
+            {
+                path: '',
+                // name: '个人中心',
+                component: MyIndex,
+                // meta: { title: '个人中心', icon: 'icon-huiyuandingyi' }
             }
         ]
     },

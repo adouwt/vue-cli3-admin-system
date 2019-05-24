@@ -3,7 +3,7 @@ import { Message, MessageBox } from 'element-ui'
 import store from '../store'
 import { getToken } from '@/utils/auth'
 
-// let baseURL = process.env.NODE_ENV === 'production' ? 'http://vue.wtodd.wang:4000' : '/'
+let baseURL = process.env.NODE_ENV === 'production' ? 'http://vue.wtodd.wang:4000' : '/'
 /** eslint disabled */
 // 创建axios实例
 const service = axios.create({
