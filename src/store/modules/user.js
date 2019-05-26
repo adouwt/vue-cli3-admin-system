@@ -1,4 +1,4 @@
-import { adminRegister, register, login, logout, getInfo ,sendEmail} from '@/api/login'
+import { adminRegister, register, login, logout, getInfo ,sendEmail, uploadImg} from '@/api/login'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 /** eslint disabled */
 const user = {
@@ -22,6 +22,9 @@ const user = {
     },
     SET_ROLES: (state, roles) => {
       state.roles = roles
+    },
+    SET_USERID: (state, _id) => {
+      state._id = _id
     },
     SET_ROLE_ROUTERS: (state, roleRouters) => {
       state.roleRouters = roleRouters
@@ -111,10 +114,26 @@ const user = {
           }
           commit('SET_NAME', data.name)
           commit('SET_AVATAR', data.avatar_url)
+          commit('SET_USERID', data._id)
           resolve(response)
         }).catch(error => {
           // console.log(error, '115')
           reject(error)
+        })
+      })
+    },
+
+    UploadImage({commit}, {_id, file}) {
+      // todo 过滤没有登录
+      console.log(file)
+      return new Promise((resolve, reject) => {
+        uploadImg(_id, file)
+        .then(response => {
+          commit('SET_USERID', _id)
+          resolve(response)
+        })
+        .catch(err => {
+          reject(err)
         })
       })
     },

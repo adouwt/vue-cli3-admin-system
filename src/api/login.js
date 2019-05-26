@@ -69,3 +69,14 @@ export function sendEmail(email) {
     }
   })
 }
+
+export function uploadImg(_id, file) {
+  return request({
+    url: '/post/uploadImg',
+    method: 'post',
+    data: {
+      _id: _id,
+      avatar_file: file
+    }
+  })
+}

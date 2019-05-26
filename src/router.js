@@ -187,7 +187,7 @@ export const constantRouterMap = [
     {
         path: '/my',
         component: Layout,
-        name: '个人中心', 
+        name: 'personalPage', 
         hidden: true, // 左侧路由导航会遍历这个名称，如果没有，就不会显示在左侧导航表中
         children: [
             {
