@@ -48,3 +48,7 @@ npm run build
 npm run analyze
 ```
  
+
+
+#### 2019-5-31
+默认关闭 开发环境的包文件分析，如果需要的话，可以修改.env.local  VUE_LIFECIRCLE_EVENT 为DEV 

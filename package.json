@@ -6,7 +6,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "cross-env NODE_ENV=production vue-cli-service build --mode production",
-    "analyze": "vue-cli-service build"
+    "analyz": "cross-env NODE_ENV=production npm_config_report=true npm run build"
   },
   "dependencies": {
     "@tinymce/tinymce-vue": "^2.0.0",

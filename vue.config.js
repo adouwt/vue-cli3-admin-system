@@ -93,14 +93,45 @@ module.exports = {
     configureWebpack: config => {
         if (process.env.NODE_ENV === 'production') {
             // 为生产环境修改配置...
-            if(process.env.npm_lifecycle_event === 'analyze'){
+            if(process.env.VUE_LIFECIRCLE_EVENT === 'ANALYZE'){
                 config.plugins.push(
-                    new BundleAnalyzerPlugin()
+                    new BundleAnalyzerPlugin( 
+                        {
+                        analyzerMode: 'server',
+                        analyzerHost: '127.0.0.1',
+                        analyzerPort: 8889,
+                        reportFilename: 'report.html',
+                        defaultSizes: 'parsed',
+                        openAnalyzer: true,
+                        generateStatsFile: false,
+                        statsFilename: 'stats.json',
+                        statsOptions: null,
+                        logLevel: 'info'
+                        }
+                    )
                 );
             }
             
         } else {
             // 为开发环境修改配置...
+            if(process.env.VUE_LIFECIRCLE_EVENT === 'DEV'){
+                config.plugins.push(
+                    new BundleAnalyzerPlugin( 
+                        {
+                        analyzerMode: 'server',
+                        analyzerHost: '127.0.0.1',
+                        analyzerPort: 8888,
+                        reportFilename: 'report.html',
+                        defaultSizes: 'parsed',
+                        openAnalyzer: true,
+                        generateStatsFile: false,
+                        statsFilename: 'stats.json',
+                        statsOptions: null,
+                        logLevel: 'info'
+                        }
+                    )
+                );
+            }
         }
         
     },
