@@ -31,6 +31,12 @@
                 <el-input name="email" type="email"  v-model="registerForm.email" autoComplete="on"
                 placeholder="请输入邮箱地址 email"></el-input>
             </el-form-item>
+            <!-- <el-form-item label="特殊资源" prop="resource">
+                <el-radio-group v-model="registerForm.resource">
+                    <el-radio :label="1">有</el-radio>
+                    <el-radio :label="0">无</el-radio>
+                </el-radio-group>
+            </el-form-item> -->
             <el-button type="primary"  :disabled="disabled" style="width:30%;" :loading="loading" @click.native.prevent="sendEmail">
                 发送验证码
             </el-button>
@@ -68,7 +74,8 @@ export default {
                 type: 'signup',
                 roles: ['dev'],
                 email:'',
-                registerCode: ''
+                registerCode: '',
+                // resource: ''
             },
             loginRules: {
                 username: [
@@ -82,7 +89,10 @@ export default {
                 ],
                 email: [
                     { required: true, message: '请输入正确的邮箱', trigger: ['blur', 'change'], pattern: /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g }
-                ]
+                ],
+                resource: [
+                    { required: true, message: '请选择活动资源', trigger: 'change' }
+                ],
             },
             loading: false,
             pwdType: "password"
@@ -97,6 +107,7 @@ export default {
             }
         },
         handleLogin() {
+            
             console.log(this.registerForm)
             this.$refs.registerForm.validate(valid => {  
                 if (valid) {
