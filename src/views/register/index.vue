@@ -47,8 +47,10 @@
                 <el-input name="registerCode" type="text" @keyup.enter.native="handleLogin" v-model="registerForm.registerCode" autoComplete="on"
                 placeholder="请输入邮箱验证码"></el-input>
             </el-form-item>
-
-
+            <!-- <el-form-item prop="imageUrl">
+                <img  :src="registerForm.mageUrl">
+                <input type="file" id="avatar" @change="selectImg">
+            </el-form-item> -->
             <el-form-item>
                 <el-button type="primary" style="width:100%;" :loading="loading" @click.native.prevent="handleLogin">
                 Sign up
@@ -75,6 +77,7 @@ export default {
                 roles: ['dev'],
                 email:'',
                 registerCode: '',
+                imageUrl: ''
                 // resource: ''
             },
             loginRules: {
@@ -93,6 +96,9 @@ export default {
                 resource: [
                     { required: true, message: '请选择活动资源', trigger: 'change' }
                 ],
+                // imageUrl: [
+                //     { required: true, message: '请选择活动图片', trigger: 'change' }
+                // ]
             },
             loading: false,
             pwdType: "password"
@@ -128,6 +134,13 @@ export default {
                 }
             });
         },
+        // selectImg(e) {
+        //     console.log(e.target.files[0])
+        //     this.registerForm.imageUrl  =  e.target.files[0];
+        //     if(this.registerForm.imageUrl) {
+        //         document.getElementById('avatar').nextSibling.style.display = 'none'
+        //     }
+        // },
         sendEmail(){
             let emailReg = /^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/g
             this.disabled = true
@@ -151,6 +164,23 @@ export default {
                 Message.error("请输入邮箱!!");
                 return false;
             }
+        },
+        handleAvatarSuccess(res, file) {
+            console.log(file)
+            this.imageUrl = URL.createObjectURL(file.raw);
+        },
+        beforeAvatarUpload(file) {
+            console.log(file)
+            const isJPG = file.type === 'image/png';
+            const isLt2M = file.size / 1024 / 1024 < 2;
+
+            if (!isJPG) {
+            this.$message.error('上传头像图片只能是 png 格式!');
+            }
+            if (!isLt2M) {
+            this.$message.error('上传头像图片大小不能超过 2MB!');
+            }
+            return isJPG && isLt2M;
         }
     }
 };
@@ -193,6 +223,29 @@ $light_gray: #eee;
 $bg: #2d3a4b;
 $dark_gray: #889aa4;
 $light_gray: #eee;
+.avatar-uploader .el-upload {
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+  .avatar-uploader .el-upload:hover {
+    border-color: #409EFF;
+  }
+  .avatar-uploader-icon {
+    font-size: 28px;
+    color: #8c939d;
+    width: 178px;
+    height: 178px;
+    line-height: 178px;
+    text-align: center;
+  }
+  .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
 .login-container {
     position: fixed;
     height: 100%;
