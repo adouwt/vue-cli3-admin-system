@@ -19,6 +19,7 @@
       <el-form-item>
         <el-button type="primary" @click="onSubmit" v-if="roles.indexOf('admin')>-1 || roles.indexOf('boss')>-1">发布</el-button>
         <el-button @click="onSave">保存草稿</el-button>
+        <el-button @click="testMethods">保存草稿ceshi</el-button>
       </el-form-item>
 
       <div>
@@ -36,7 +37,8 @@
 <script>
 import { VueEditor, Quill } from 'vue2-editor'
 import Editor from '@tinymce/tinymce-vue';
-import { mapGetters } from 'vuex'
+import { mapGetters } from 'vuex';
+import './test.js';
 export default {
   computed: {
     ...mapGetters([
@@ -66,6 +68,9 @@ export default {
         message: 'save!!!!!  ok',
         type: 'warning'
       })
+    },
+    testMethods() {
+      add();
     }
   }
 }
