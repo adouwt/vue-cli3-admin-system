@@ -30,7 +30,7 @@
     "sass-loader": "^7.1.0",
     "svg-sprite-loader": "3.5.2",
     "vue-template-compiler": "^2.5.17",
-    "webpack-bundle-analyzer": "^2.13.1"
+    "webpack-bundle-analyzer": "^3.3.2"
   },
   "postcss": {
     "plugins": {
