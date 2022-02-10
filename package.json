@@ -25,7 +25,7 @@
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0",
     "@vue/cli-service": "^3.5.3",
-    "node-sass": "^4.9.3",
+    "node-sass": "^7.0.0",
     "qiniu-webpack-plugin": "^0.4.2",
     "sass-loader": "^7.1.0",
     "svg-sprite-loader": "3.5.2",
